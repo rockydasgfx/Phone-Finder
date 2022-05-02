@@ -40,11 +40,15 @@ const showPhone = (phones) => {
         <div class="card-body">
         <h5 class="card-title">${phone.phone_name}</h5>
         <h6 class="card-title">${phone.brand}</h6>
-        <button class="btn btn-primary w-100">Details</button>
+        <button class="btn btn-primary w-100" onclick="showInfo('${phone.slug}')">Details</button>
         </div>
       </div>
       `;
       showPhones.appendChild(phoneInfo);
     });
   }
+};
+
+const showInfo = (info) => {
+  const url = `https://openapi.programming-hero.com/api/phone/${info}`;
 };

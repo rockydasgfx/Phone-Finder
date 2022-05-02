@@ -7,13 +7,13 @@ document.getElementById("search-btn").addEventListener("click", () => {
   searchField.value = "";
 
   //data load
-  function lodeData() {
+  const loadData = () => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${inLowerCase}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => showPhone(data.data));
-  }
-  lodeData();
+  };
+  loadData();
 });
 
 // show phone
@@ -40,7 +40,7 @@ const showPhone = (phones) => {
         <div class="card-body">
         <h5 class="card-title">${phone.phone_name}</h5>
         <h6 class="card-title">${phone.brand}</h6>
-        <button class="btn btn-primary w-100" onclick="showInfo('${phone.slug}')">Details</button>
+        <button class="btn btn-primary w-100" onclick="loadInfo('${phone.slug}')">Details</button>
         </div>
       </div>
       `;
@@ -49,6 +49,43 @@ const showPhone = (phones) => {
   }
 };
 
+const loadInfo = (id) => {
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => showInfo(data.data));
+};
+
 const showInfo = (info) => {
-  const url = `https://openapi.programming-hero.com/api/phone/${info}`;
+  const { chipSet, displaySize, memory, storage, sensors } = info.mainFeatures;
+
+  const showInfo = document.getElementById("show-info");
+  showInfo.textContent = "";
+  const infoWrap = document.createElement("div");
+  infoWrap.classList.add("row");
+  infoWrap.classList.add("g-0");
+  infoWrap.innerHTML = `
+    <div class="col-md-4">
+      <img src="${info.image}" class="img-fluid rounded-start" alt="..." />
+    </div>
+    <div class="col-md-8">
+      <p class="card-body">
+      <h6 class="card-title">${info.brand}</h6>
+        <h5 class="card-title">${info.name}</h5>
+        <p class="card-text">
+          <small class="text-muted">
+          ${
+            info.releaseDate == "" ? "Release Date not found" : info.releaseDate
+          }</small>
+        </p>
+        <p class="card-text">Chipset : ${chipSet}</p>
+        <p class="card-text">Display Size : ${displaySize}</p>
+        <p class="card-text">Memory : ${memory}</p>
+        <p class="card-text">Storage : ${storage}</p>
+        <p class="card-text" >sensors : 
+        ${sensors.map((sensor) => `<span> ${sensor} </span>`)}</p>
+      </p>
+    </div>
+  `;
+  showInfo.appendChild(infoWrap);
 };

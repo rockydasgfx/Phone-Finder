@@ -49,6 +49,7 @@ const showPhone = (phones) => {
   }
 };
 
+//load info data
 const loadInfo = (id) => {
   const url = `https://openapi.programming-hero.com/api/phone/${id}`;
   fetch(url)
@@ -56,11 +57,14 @@ const loadInfo = (id) => {
     .then((data) => showInfo(data.data));
 };
 
+//show phone Details
 const showInfo = (info) => {
+  // object destructuring
   const { chipSet, displaySize, memory, storage, sensors } = info.mainFeatures;
 
   const showInfo = document.getElementById("show-info");
   showInfo.textContent = "";
+
   const infoWrap = document.createElement("div");
   infoWrap.classList.add("row");
   infoWrap.classList.add("g-0");
@@ -92,6 +96,7 @@ const showInfo = (info) => {
   `;
   showInfo.appendChild(infoWrap);
 
+  //show other features
   const other = document.getElementById("other");
   const others = info.others;
   for (let prop in others) {

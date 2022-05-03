@@ -68,7 +68,7 @@ const showInfo = (info) => {
     <div class="col-md-4">
       <img src="${info.image}" class="img-fluid rounded-start" alt="..." />
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" >
       <p class="card-body">
       <h6 class="card-title">${info.brand}</h6>
         <h5 class="card-title">${info.name}</h5>
@@ -83,9 +83,20 @@ const showInfo = (info) => {
         <p class="card-text">Memory : ${memory}</p>
         <p class="card-text">Storage : ${storage}</p>
         <p class="card-text" >sensors : 
-        ${sensors.map((sensor) => `<span> ${sensor} </span>`)}</p>
-      </p>
+        ${sensors.map((sensor) => `<span> ${sensor} </span>`)}
+        </p>
+        <p id='other'>
+        Other Features : <br>
+        </p>
     </div>
   `;
   showInfo.appendChild(infoWrap);
+
+  const other = document.getElementById("other");
+  const others = info.others;
+  for (let prop in others) {
+    const wraper = document.createElement("span");
+    wraper.innerHTML = `${prop} : ${others[prop]} , `;
+    other.appendChild(wraper);
+  }
 };
